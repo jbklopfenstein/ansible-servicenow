@@ -1,0 +1,29 @@
+---
+- hosts: localhost
+  vars:
+  name: Modular playbook with Roles in a Block and Rescue
+  become: no
+  gather_facts: no
+  connection: local
+  tasks:
+  - block:
+    - include_role:
+        name: change_transitcsr_config
+        tasks_from: main
+    - name: this is a task to demonstrate tasks in addition to roles
+      shell: echo "extra task - test" >> /testlog.txt
+    - debug:
+        msg: "all roles and actions sucessful"
+
+# Add Rescue tasks and Handlers here
+#    rescue:
+#      - name: update SNOW with failure
+#
+#      - debug:
+#          msg: "rescue task complete"
+
+#  handlers:
+#  - name:
+#
+#  - debug:
+#      msg:

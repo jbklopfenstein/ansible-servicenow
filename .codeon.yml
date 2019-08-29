@@ -9,12 +9,12 @@ it_application: SDx Generic Software
 lifecycles:
   development:
     - dev
-    - dev2
-  staging:
-    - stg
-  production:
-    - prd1
-    - prd2
+#    - dev2
+#  staging:
+#    - stg
+#  production:
+#    - prd1
+#    - prd2
 
 check:
   image: "containers.cisco.com/gissdlc/build_check_centos7"

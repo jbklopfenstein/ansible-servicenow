@@ -1,0 +1,11 @@
+---
+# Change interface state on CSR
+ - name: Configure Int
+   ios_config:
+     provider: "{{ cli }}"
+     parents:
+       - interface tu2
+     lines:
+       - no shut
+ - debug:
+     msg: "this task is successful"
