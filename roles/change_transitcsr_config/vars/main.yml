@@ -1,7 +1,7 @@
 ---
 # Add connection details for CSR and working pem file for AWS authentication
 cli:
-  host: 13.56.15.163
+  host: x.x.x.x
   port: 22
   username: ec2-user
-  ssh_keyfile: ~/.ssh/jk-aws-kp1.pem
+  ssh_keyfile: ~/.ssh/keyfile.pem
