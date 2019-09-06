@@ -1,4 +1,4 @@
-# Introduction to aws-csr-ansible project
+# Intro to aws-csr-ansible project
 * * *
 Welcome to aws-csr-ansible project. The aim of this project is to help you with a sample project repository that outlines
 the setup needed, to setup your own custom projects with custom deployment types and integrate it with Heighliner.
