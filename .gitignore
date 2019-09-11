@@ -1,0 +1,5 @@
+tools/
+sonar-project.properties
+Vagrantfile
+.codeon.yml
+

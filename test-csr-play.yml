@@ -1,6 +1,11 @@
 ---
+# Edit your Roles, update them here, and run/test this playbook as is.
+# Additionally, uncomment and configure the Rescue and Handlers section to setup custom follow-on actions as desired.
+# The example follow-on action here will be a REST API call to an exposed ServiceNow API.
 - hosts: localhost
-  vars:
+# Add playbook, non-role-specific variables here. For example, the ServiceNow ticket#
+# vars:
+#   chgnumber: <ticket number> 
   name: Modular playbook with Roles in a Block and Rescue
   become: no
   gather_facts: no
@@ -10,20 +15,40 @@
     - include_role:
         name: change_transitcsr_config
         tasks_from: main
-    - name: this is a task to demonstrate tasks in addition to roles
+    - name: this is an example shell command task to demonstrate tasks in addition to roles
       shell: echo "extra task - test" >> /testlog.txt
+# Use notify to identify the handler name to invoke if this last task is successful
+#     notify: update ticket status with success
     - debug:
         msg: "all roles and actions sucessful"
 
-# Add Rescue tasks and Handlers here
+# Add Rescue tasks and Handlers here, for example
 #    rescue:
-#      - name: update SNOW with failure
-#
+#      - name: update ticket status with failure
+#        uri:
+#          url: {{ playbook var for defined servicenow API URL }}
+#          method: POST
+#          user: "{{ playbook var for servicenow userid }}"
+#          password: "{{ playbook var for servicenow pw }}"
+#          body: '{ "number":"{{ chgnumber }}","success":"0","close_code":"unsuccessful","close_notes":"failed" }'
+#          body_format: json
+#          force_basic_auth: yes
+#          follow_redirects: all
+#          status_code: 200
 #      - debug:
 #          msg: "rescue task complete"
 
 #  handlers:
-#  - name:
-#
+#  - name: update ticket status with success
+#    uri:
+#      url: {{ playbook var for defined servicenow API URL }}
+#      method: POST
+#      user: "{{ playbook var for servicenow userid }}"
+#      password: "{{ playbook var for servicenow pw }}"
+#      body: '{ "number":"{{ chgnumber }}","success":"1" }'
+#      body_format: json
+#      force_basic_auth: yes
+#      follow_redirects: all
+#      status_code: 200
 #  - debug:
-#      msg:
+#      msg: "handler task complete"
