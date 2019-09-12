@@ -2,35 +2,49 @@
 * * *
 Welcome to the ansible-servicenow project.
 
-This is a simple Ansible playbook for adding Roles and Tasks within a Block and Rescue structure which allows the customization of additional REST API callback actions.
+This is a general change-management playbook designed to take in and execute user-defined Ansible Roles and Tasks, and then additionally make a follow-up API call upon completion.
+The example playbook will perform the listed roles and tasks, and then optionally end with the suitable API call to ServiceNow.
+Note that the Ansible modules used will determine the version of Ansible required.
 
-This simple structure allows deployment and operations teams to share a common playbook that has been standardized for a specific set of actions while supporting their individual Roles.
+Use-Case
+-----------
+This simple structure allows deployment and operations teams to share common playbooks that have been standardized for specific actions while supporting individual Roles.
+For example, while the example provided here has the specific action of connecting to a Cisco CSR router in an AWS account, making a change to an interface, and then calling a ServiceNow API to update ticket status, 
+other roles and/or tasks (and follow-up API calls) can be substituted (provided that a compatible Ansible version is used with the chosen modules).  
+If different Ansible versions are required, consider using virtual envs or containers to maintain such dependencies for different playbooks.
 
-The example playbook provided here has the specific action of connecting to a Cisco CSR router in an AWS account, making a change to an interface, and then calling a ServiceNow API to update ticket status.  Other roles and/or tasks can be added as well.
-
-The follow-up API call to ServiceNow will close a given ticket as successful or unsuccessful depending on whether or not all playbook actions completed successfully.
+Description of Example Code 
+-----------
+- Uses an Ansible Role which uses the Ansible *Cisco ios_config module*, and is known to work on the specified Ansible version specified below.
+- The ios_config module is used to connect to an IOS device, in this case a CSR router, and make the defined configuration change, in this case a interface state change.
+- The example CSR router happens to be in an AWS account, so part of the module specifies an AWS SSH keyfile for authentication.
+- The follow-up API call uses the Ansible *uri module* to call a ServiceNow API that has been previously exposed.
+- It will tell ServiceNow to close a given ticket as **successful** or **unsuccessful** depending on whether or not all the playbook actions completed successfully.
 
 
 Local/Control Machine Info
 -----------
 ```
-$ lsb_release -a
-No LSB modules are available.
-Distributor ID:	Ubuntu
-Description:	Ubuntu 18.04.3 LTS
-Release:	18.04
-Codename:	bionic
+$ cat /etc/issue
+Debian GNU/Linux 9 \n \l
 
 $ uname -a
-Linux jeff-VirtualBox5 5.0.0-27-generic #28~18.04.1-Ubuntu SMP Thu Aug 22 03:00:32 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux
-
-$ ansible –version
-ansible 2.8.3
-  config file = /etc/ansible/ansible.cfg
-  configured module search path = [u'/home/jeff/.ansible/plugins/modules', u'/usr/share/ansible/plugins/modules']
-  ansible python module location = /usr/lib/python2.7/dist-packages/ansible
-  executable location = /usr/bin/ansible
-  python version = 2.7.15+ (default, Jul  9 2019, 16:51:35) [GCC 7.4.0] 
+Linux 12c25485804c 5.0.0-27-generic #28~18.04.1-Ubuntu SMP Thu Aug 22 03:00:32 UTC 2019 x86_64 GNU/Linux
+ 
+$ ansible --version
+ansible 2.4.2.0
+  config file = None
+  configured module search path = [u'/root/.ansible/plugins/modules', u'/usr/share/ansible/plugins/modules']
+  ansible python module location = /usr/local/lib/python2.7/site-packages/ansible
+  executable location = /usr/local/bin/ansible
+  python version = 2.7.16 (default, Jul 12 2019, 01:42:49) [GCC 6.3.0 20170516]
 
 ```
+
+Prerequisites
+-----------
+- Understanding of Ansible Modules and Roles
+- Working knowledge of ServiceNow APIs
+- Working knowledge of Cisco CLI
+- Working knowledge of AWS
 
