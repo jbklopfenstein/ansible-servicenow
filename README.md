@@ -108,7 +108,7 @@ LICENSE  NOTICE  README.md  roles  test-csr-play.yml
 
 (heighlinerenv)$ more roles/change_transitcsr_config/vars/main.yml 
 ---
-# Add connection details for CSR and working pem file for AWS authentication
+# Add connection details for CSR
 cli:
   host: ios-xe-mgmt-latest.cisco.com
   port: 8181
