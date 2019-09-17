@@ -16,7 +16,7 @@
         name: change_transitcsr_config
         tasks_from: main
     - name: this is an example shell command task to demonstrate tasks in addition to roles
-      shell: echo "extra task - test" >> /testlog.txt
+      shell: echo "extra task - test" >> ~/testlog.txt
 # Use notify to identify the handler name to invoke if this last task is successful
 #     notify: update ticket status with success
     - debug:

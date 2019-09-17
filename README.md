@@ -48,3 +48,77 @@ Prerequisites
 - Working knowledge of Cisco CLI
 - Working knowledge of AWS
 
+Example Execution
+-----------
+Here is a capture of basic execution targeting a Cisco CSR on the Cisco DevNet Always-On Sandbox
+* [Practice using Cisco CSR on DevNet](https://devnetsandbox.cisco.com/RM/Diagram/Index/38ded1f0-16ce-43f2-8df5-43a40ebf752e?diagramType=Topology)
+
+Ensure target is added to known hosts
+```
+$ ssh developer@ios-xe-mgmt-latest.cisco.com -p 8181
+The authenticity of host '[ios-xe-mgmt-latest.cisco.com]:8181 ([64.103.37.8]:8181)' can't be established.
+RSA key fingerprint is SHA256:+ChihJ4vSUJteAzP9X8IfXIXmvEBPcvGMtSLTT+sGCU.
+Are you sure you want to continue connecting (yes/no)? yes
+
+Warning: Permanently added '[ios-xe-mgmt-latest.cisco.com]:8181' (RSA) to the list of known hosts.
+Password: 
+
+Welcome to the DevNet Sandbox for CSR1000v and IOS XE
+
+The following programmability features are already enabled:
+  - NETCONF
+  - RESTCONF
+
+Thanks for stopping by.
+
+
+csr1000v-1#exit
+```
+
+Verify use of a compatible Ansible version
+```
+(base)$ conda activate heighlinerenv
+
+(heighlinerenv)$ ansible --version
+ansible 2.4.2.0
+  config file = /etc/ansible/ansible.cfg
+  configured module search path = [u'/home/jeff/.ansible/plugins/modules', u'/usr/share/ansible/plugins/modules']
+  ansible python module location = /home/jeff/anaconda3/envs/heighlinerenv/lib/python2.7/site-packages/ansible
+  executable location = /home/jeff/anaconda3/envs/heighlinerenv/bin/ansible
+  python version = 2.7.16 |Anaconda, Inc.| (default, Aug 22 2019, 16:00:36) [GCC 7.3.0]
+``` 
+
+Execute Playbook
+```
+(heighlinerenv)$ ansible-playbook test-csr-play.yml 
+[WARNING]: Could not match supplied host pattern, ignoring: all
+
+[WARNING]: provided hosts list is empty, only localhost is available
+
+
+PLAY [Modular playbook with Roles in a Block and Rescue] *****************************************************************************
+
+TASK [include_role] ******************************************************************************************************************
+
+TASK [change_transitcsr_config : Configure Int] **************************************************************************************
+changed: [localhost]
+
+TASK [change_transitcsr_config : debug] **********************************************************************************************
+ok: [localhost] => {
+    "msg": "this task is successful"
+}
+
+TASK [this is an example shell command task to demonstrate tasks in addition to roles] ***********************************************
+changed: [localhost]
+
+TASK [debug] *************************************************************************************************************************
+ok: [localhost] => {
+    "msg": "all roles and actions sucessful"
+}
+
+PLAY RECAP ***************************************************************************************************************************
+localhost                  : ok=4    changed=2    unreachable=0    failed=0   
+
+(heighlinerenv)$
+
+```
